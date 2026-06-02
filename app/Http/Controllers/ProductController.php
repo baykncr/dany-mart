@@ -77,18 +77,34 @@ class ProductController extends Controller
             'unit'           => 'required|string|max:30',
             'purchase_price' => 'required|integer|min:0',
             'selling_price'  => 'required|integer|min:1',
-            'stock'          => 'required|integer|min:0',
             'photo'          => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
+        // PERBAIKAN BUG FOTO HILANG
         if ($request->hasFile('photo')) {
+            // kalo ada foto baru, hapus yang lama, simpan yang baru
             if ($product->photo) Storage::disk('public')->delete($product->photo);
             $validated['photo'] = $request->file('photo')->store('products', 'public');
+        } else {
+            // kalo gada foto baru, buang data 'photo' biar ga nimpa db jadi null
+            unset($validated['photo']);
         }
 
         $product->update($validated);
 
         return back()->with('success', 'Produk berhasil diperbarui.');
+    }
+
+    // FITUR BARU: TAMBAH STOK
+    public function addStock(Request $request, Product $product)
+    {
+        $validated = $request->validate([
+            'stock_added' => 'required|integer|min:1',
+        ]);
+
+        $product->increment('stock', $validated['stock_added']);
+
+        return back()->with('success', "Stok {$product->name} berhasil ditambahkan sebanyak {$validated['stock_added']}.");
     }
 
     public function destroy(Product $product)

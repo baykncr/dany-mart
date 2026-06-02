@@ -56,7 +56,6 @@ const navItems = [
 const filteredNavItems = computed(() => {
     const currentUser = page.props.auth.user as unknown as AuthUser
     
-    // Pastikan permissions dibaca sebagai Array
     const userPermissions = Array.isArray(page.props.auth.permissions) 
         ? page.props.auth.permissions 
         : []

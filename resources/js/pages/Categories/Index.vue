@@ -205,9 +205,6 @@ function getAssociationNames(ids?: number[]) {
                 size="md"
                 @close="closeModal" 
 >
-            <div class="px-6 py-4 border-b border-neutral-30 flex items-center justify-between">
-                <h3 class="text-h4 font-bold text-neutral-100">{{ editTarget ? 'Edit Kategori' : 'Tambah Kategori' }}</h3>
-            </div>
             <form @submit.prevent="submit" class="p-6 space-y-4">
                 <div>
                     <label class="block text-body2 font-medium text-neutral-70 mb-1">Nama Kategori <span class="text-danger">*</span></label>
@@ -220,7 +217,7 @@ function getAssociationNames(ids?: number[]) {
                     <InputError :message="form.errors.code" class="mt-1" />
                 </div>
                 <div>
-                    <label class="block text-body2 font-medium text-neutral-70 mb-1">Prioritas (Makin kecil makin di atas)</label>
+                    <label class="block text-body2 font-bold text-red-500 mb-1">Prioritas (Makin kecil makin di atas)</label>
                     <input v-model="form.priority_order" type="number" class="w-full px-3 py-2 border border-neutral-40 rounded-xl text-neutral-80 focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none transition-all" />
                     <InputError :message="form.errors.priority_order" class="mt-1" />
                 </div>
