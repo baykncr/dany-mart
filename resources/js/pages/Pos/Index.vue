@@ -165,7 +165,7 @@ async function handleCheckout() {
         }))
 
         const { data } = await axios.post('/pos/recommend', { cart: payload })
-        
+
         recommendations.value = data.recommendations ?? []
         dominantCategory.value = data.dominant_category ?? null
     } catch (e) {
@@ -176,9 +176,14 @@ async function handleCheckout() {
     }
 }
 
-// Bypass strict TypeScript checking dengan (any)
+// Tambah satu produk rekomendasi ke cart
 function addRecommendedToCart(product: any) {
     addToCart(product as Product)
+}
+
+// Tambah semua produk rekomendasi ke cart sekaligus
+function addAllRecommendedToCart(products: any[]) {
+    products.forEach(p => addToCart(p as Product))
 }
 
 function proceedToPayment() {
@@ -216,12 +221,12 @@ async function handlePaymentConfirm({ payment_method, payment_amount }: { paymen
         }
 
         const { data } = await axios.post('/pos/checkout', payload)
-        
+
         receipt.value = data.receipt
 
         cart.value.forEach(item => {
             const product = props.products.find(p => p.id === item.id)
-            
+
             if (product) {
                 product.stock -= item.quantity
             }
@@ -450,6 +455,7 @@ function formatRupiah(val: number) {
             :dominant-category="dominantCategory"
             :loading="loadingRecommendation"
             @add-to-cart="addRecommendedToCart"
+            @add-all-to-cart="addAllRecommendedToCart"
             @skip="skipRecommendation"
             @proceed="proceedToPayment"
         />

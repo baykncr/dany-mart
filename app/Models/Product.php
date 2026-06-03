@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
+// 👇 TAMBAHKAN 3 BARIS INI UNTUK MENCEGAH "CLASS NOT FOUND"
+use App\Models\Category;
+use App\Models\OrderItem;
+use App\Models\ProductStockHistory;
+
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Builder;
 
 class Product extends Model
 {
@@ -43,10 +48,11 @@ class Product extends Model
         return $query->where('category_id', $categoryId);
     }
 
-    public function scopePopular(Builder $query):Builder
+    public function scopePopular(Builder $query): Builder
     {
+        // 👇 DIPERBAIKI: Mengubah orderByDesc menjadi orderByRaw agar SQL tidak crash
         return $query->withSum('orderItems as total_sold', 'quantity')
-                     ->orderByDesc('total_sold  DESC NULLS LAST');
+                     ->orderByRaw('total_sold DESC NULLS LAST');
     }
 
     // Relations

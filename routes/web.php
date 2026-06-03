@@ -29,6 +29,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
     // ── KASIR & CHECKOUT (Semua Role Bisa Akses) ───────────────────────
     Route::get('/pos', [PosController::class, 'index'])->name('pos.index');
+    Route::post('/pos/recommend', [PosController::class, 'recommend'])->name('pos.recommend');
     Route::post('/pos/checkout', [OrderController::class, 'store'])->name('pos.checkout');
     Route::resource('categories', CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('products', ProductController::class)->only(['index', 'store', 'update', 'destroy']);
