@@ -53,19 +53,21 @@ class OrderItemsSheet implements FromQuery, WithHeadings, WithMapping, WithTitle
         ];
     }
 
-    public function map($item): array
+   public function map($item): array
     {
         return [
-            $item->order->order_number,
-            $item->order->created_at->format('d/m/Y H:i'),
-            $item->order->user->name,
-            $item->product->name,
-            $item->product->category?->name ?? '-',
-            $item->product->unit,
+            $item->order?->order_number ?? 'Tidak Diketahui',
+            $item->order?->created_at ? $item->order->created_at->format('d/m/Y H:i') : '-',
+            $item->order?->user?->name ?? 'Kasir Dihapus',
+            $item->product?->name ?? 'Produk Dihapus',
+            $item->product?->category?->name ?? '-',
+            $item->product?->unit ?? '-',
+            
             $item->quantity,
             $item->unit_price,
             $item->subtotal,
-            strtoupper($item->order->payment_method),
+            
+            $item->order?->payment_method ? strtoupper($item->order->payment_method) : '-',
         ];
     }
 

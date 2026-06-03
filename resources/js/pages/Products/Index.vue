@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { router, useForm } from '@inertiajs/vue3'
-import { Search, Plus, Package, Edit2, Trash2, TrendingUp, X, ImagePlus, Loader2 } from 'lucide-vue-next'
+import { Search, Plus, Package, Edit2, Trash2, TrendingUp, X, ImagePlus, Loader2, PlusCircle } from 'lucide-vue-next'
 import { ref, computed, watch } from 'vue'
 
 import ConfirmDialog from '@/components/ConfirmDialog.vue'
@@ -84,6 +84,9 @@ const showConfirm  = ref(false)
 const editTarget   = ref<Product | null>(null)
 const deleteTarget = ref<Product | null>(null)
 const photoPreview = ref<string | null>(null)
+    
+const showStockModal = ref(false)
+const stockTarget    = ref<Product | null>(null)
 
 const form = useForm({
     category_id: '' as string | number,
@@ -95,6 +98,10 @@ const form = useForm({
     stock: 0,
     photo: null as File | null,
     _method: '',
+})
+
+const stockForm = useForm({
+    stock_added: '' as string | number,
 })
 
 const unitOptions = ['pcs', 'botol', 'kaleng', 'kg', 'gram', 'liter', 'ml', 'dus', 'karton', 'sachet', 'strip', 'pak']
@@ -157,6 +164,25 @@ function submit() {
     form.post(url, {
         forceFormData: true,
         onSuccess: closeModal,
+    })
+}
+
+// ── Tambah Stok ────────────────────────────────────────────────────────────
+function openStockModal(product: Product) {
+    stockTarget.value = product
+    stockForm.reset()
+    stockForm.clearErrors()
+    showStockModal.value = true
+}
+
+function submitStock() {
+    if (!stockTarget.value) return
+    stockForm.patch(`/products/${stockTarget.value.id}/add-stock`, {
+        preserveScroll: true,
+        onSuccess: () => {
+            showStockModal.value = false
+            stockTarget.value = null
+        }
     })
 }
 
@@ -321,6 +347,13 @@ function stockBadge(stock: number) {
 
                             <td class="px-5 py-4">
                                 <div class="flex items-center justify-end gap-2">
+                                    <button
+                                        @click="openStockModal(product)"
+                                        class="p-2 rounded-lg text-neutral-60 hover:bg-success-light hover:text-success-dark transition-colors cursor-pointer"
+                                        title="Tambah Stok Masuk"
+                                    >
+                                        <PlusCircle class="w-4 h-4" />
+                                    </button>
                                     <button
                                         @click="openEdit(product)"
                                         class="p-2 rounded-lg text-neutral-60 hover:bg-primary/10 hover:text-primary transition-colors cursor-pointer"
@@ -498,7 +531,7 @@ function stockBadge(stock: number) {
                             </div>
                         </div>
 
-                        <div>
+                        <div v-if="!editTarget">
                             <label class="block text-body2 font-medium text-neutral-70 mb-1.5">
                                 Stok Awal <span class="text-danger">*</span>
                             </label>
@@ -561,6 +594,55 @@ function stockBadge(stock: number) {
                     >
                         <Loader2 v-if="form.processing" class="w-4 h-4 animate-spin" />
                         {{ form.processing ? 'Menyimpan...' : (editTarget ? 'Simpan Perubahan' : 'Tambah Produk') }}
+                    </button>
+                </div>
+            </template>
+        </Modal>
+
+        <Modal
+            :show="showStockModal"
+            title="Tambah Stok Masuk"
+            size="sm"
+            @close="showStockModal = false"
+        >
+            <form @submit.prevent="submitStock" class="space-y-4">
+                <div class="p-4 bg-primary/10 rounded-xl">
+                    <p class="text-body2 text-primary-dark mb-1">Produk:</p>
+                    <p class="text-body1 font-semibold text-primary-dark">{{ stockTarget?.name }}</p>
+                    <p class="text-body2 text-primary-dark mt-2">Sisa Stok Saat Ini: <strong>{{ stockTarget?.stock }} {{ stockTarget?.unit }}</strong></p>
+                </div>
+
+                <div>
+                    <label class="block text-body2 font-medium text-neutral-70 mb-1.5">
+                        Jumlah Stok Ditambahkan <span class="text-danger">*</span>
+                    </label>
+                    <input
+                        v-model.number="stockForm.stock_added"
+                        type="number"
+                        min="1"
+                        placeholder="Contoh: 10"
+                        class="w-full px-3.5 py-2.5 border border-neutral-40 rounded-xl text-body1 text-neutral-90 shadow-md focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+                    />
+                    <InputError :message="stockForm.errors.stock_added" />
+                </div>
+            </form>
+
+            <template #footer>
+                <div class="flex justify-end gap-3">
+                    <button
+                        type="button"
+                        @click="showStockModal = false"
+                        class="px-5 py-2.5 border border-neutral-40 rounded-xl text-body1 font-medium text-neutral-70 hover:bg-neutral-20 transition-colors cursor-pointer"
+                    >
+                        Batal
+                    </button>
+                    <button
+                        @click="submitStock"
+                        :disabled="stockForm.processing"
+                        class="px-5 py-2.5 bg-success hover:bg-success-dark text-white rounded-xl text-body1 font-medium shadow-sm transition-all disabled:opacity-60 flex items-center gap-2 cursor-pointer"
+                    >
+                        <Loader2 v-if="stockForm.processing" class="w-4 h-4 animate-spin" />
+                        {{ stockForm.processing ? 'Menyimpan...' : 'Tambah Stok' }}
                     </button>
                 </div>
             </template>

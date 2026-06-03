@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class, // <-- Tambahkan di sini
             CategorySeeder::class,
             ProductSeeder::class,
+            RolePermissionSeeder::class,
         ]);
     }
 }

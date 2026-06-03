@@ -192,7 +192,7 @@ function formatRupiah(val: number | string | undefined) {
                                         <p class="text-body2 font-medium text-neutral-70 mb-2">Nominal Cepat</p>
                                         <div class="flex flex-wrap gap-2">
                                             <button v-for="amount in quickAmounts" :key="amount" @click="setQuickAmount(amount)" class="px-3 py-1.5 rounded-lg text-body2 font-semibold border-2 transition-all duration-150 cursor-pointer" :class="paymentAmountNum === amount ? 'bg-primary border-primary text-white shadow-sm' : 'border-neutral-30 text-neutral-70 hover:border-primary/50 hover:text-primary bg-white'">
-                                                {{ amount === totalAmount ? 'Pas' : formatRupiah(amount) }}
+                                                {{ amount === totalAmount ? 'Uang Pas' : formatRupiah(amount) }}
                                             </button>
                                         </div>
                                     </div>

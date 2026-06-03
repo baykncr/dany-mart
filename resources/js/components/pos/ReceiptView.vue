@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { Check, Printer, RotateCcw } from 'lucide-vue-next'
-import { ref } from 'vue'
+import { Check, RotateCcw } from 'lucide-vue-next'
 
 // ── Types ──────────────────────────────────────────────────────────────────
 interface ReceiptItem {
@@ -33,8 +32,7 @@ const emit = defineEmits<{
     (e: 'new-transaction'): void
 }>()
 
-// ── Helpers ────────────────────────────────────────────────────────────────
-const printing = ref(false)
+// ── Helpers ────────────────────────────────────────────────────────────
 
 function rupiah(val: number | string) {
     return 'Rp ' + Number(val).toLocaleString('id-ID')
@@ -44,14 +42,6 @@ function paymentMethodLabel(method: string) {
     return method === 'qris' ? 'QRIS' : 'Tunai'
 }
 
-// ── Print ──────────────────────────────────────────────────────────────────
-function handlePrint() {
-    printing.value = true
-    setTimeout(() => {
-        window.print()
-        printing.value = false
-    }, 100)
-}
 </script>
 
 <template>
@@ -139,14 +129,6 @@ function handlePrint() {
         </div>
 
         <div class="flex gap-3 pt-4 border-t border-neutral-30 flex-shrink-0">
-            <button
-                @click="handlePrint"
-                :disabled="printing"
-                class="flex-1 flex items-center justify-center gap-2 py-3 border-2 border-neutral-30 rounded-xl text-body1 font-semibold text-neutral-70 hover:bg-neutral-20 hover:border-neutral-50 transition-all cursor-pointer"
-            >
-                <Printer class="w-4 h-4" />
-                {{ printing ? 'Mencetak...' : 'Cetak Struk' }}
-            </button>
             <button
                 @click="emit('new-transaction')"
                 class="flex-1 flex items-center justify-center gap-2 py-3 bg-primary hover:bg-primary-hover rounded-xl text-body1 font-bold text-white shadow-sm transition-all cursor-pointer"

@@ -39,7 +39,7 @@ class RolePermissionSeeder extends Seeder
         // 4. Assign role 'admin' ke user yang sudah ada (Misal user pertama di database)
         $firstUser = User::first();
         if ($firstUser) {
-            // Kita pastikan user pertama selalu jadi admin
+        
             $firstUser->assignRole('admin'); 
         }
     }
