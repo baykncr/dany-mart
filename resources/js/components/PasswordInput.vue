@@ -33,14 +33,14 @@ defineExpose({
             @click="showPassword = !showPassword"
             :class="
                 cn(
-                    'absolute inset-y-0 right-0 flex items-center rounded-r-md px-3 text-muted-foreground hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-none',
+                    'absolute inset-y-0 right-0 flex items-center rounded-r-md px-3 text-slate-400 hover:text-[#0A192F] focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-none transition-colors',
                 )
             "
             :aria-label="showPassword ? 'Hide password' : 'Show password'"
             :tabindex="-1"
         >
-            <EyeOff v-if="showPassword" class="size-4" />
-            <Eye v-else class="size-4" />
+            <Eye v-if="showPassword" class="size-4" />
+            <EyeOff v-else class="size-4" />
         </button>
     </div>
 </template>
