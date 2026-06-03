@@ -53,15 +53,6 @@ defineProps<{
 
             <div class="relative z-10 flex flex-col h-full px-12 xl:px-20 py-12 justify-between">
                 
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-lg">
-                        <Package2 class="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                        <p class="text-white font-bold text-[14px] leading-tight tracking-wide">SmartPOS Connect</p>
-                        <p class="text-white/60 text-[12px] font-medium mt-0.5">Dany Mart</p>
-                    </div>
-                </div>
 
                 <div class="flex flex-col justify-center">
                     <div class="max-w-xl">
@@ -113,14 +104,8 @@ defineProps<{
 
         <div class="flex-1 flex flex-col items-center justify-center px-6 py-8 lg:px-16 xl:px-24 overflow-y-auto bg-white shadow-[-20px_0_40px_-10px_rgba(0,0,0,0.05)] z-10 relative">
 
-            <div class="flex items-center gap-3 mb-10 lg:hidden w-full max-w-[420px]">
-                <div class="w-10 h-10 rounded-xl bg-[#073C64] flex items-center justify-center shadow-md">
-                    <Package2 class="w-5 h-5 text-white" />
-                </div>
-                <div>
-                    <p class="font-bold text-[14px] text-[#0A192F] leading-none">SmartPOS Connect</p>
-                    <p class="text-slate-500 text-[12px] mt-1">Dany Mart</p>
-                </div>
+            <div class="flex items-center justify-center mb-14 w-full max-w-[420px]">
+                <img src="/logo.png" alt="Logo" class="h-14 w-auto object-contain" />
             </div>
 
             <div class="w-full max-w-[420px]">

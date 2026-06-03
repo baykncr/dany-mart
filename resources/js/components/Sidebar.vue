@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link, router, usePage } from '@inertiajs/vue3'
-import { FileText, LayoutDashboard, LogOut, Package, ShoppingCart, Store, Tags, Users, ShieldCheck } from 'lucide-vue-next'
+import { FileText, LayoutDashboard, LogOut, Package, ShoppingCart, Tags, Users, ShieldCheck } from 'lucide-vue-next'
 import { onMounted, onUnmounted, ref, computed } from 'vue'
 
 const page = usePage()
@@ -95,17 +95,14 @@ const initials = user.name.split(' ').map((n: string) => n[0]).join('').toUpperC
 <template>
     <aside class="relative z-20 w-64 shrink-0 bg-white border-r border-neutral-40 flex flex-col h-screen overflow-y-auto shadow-sm">
 
-        <div class="px-5 py-5 border-b border-neutral-40">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center shrink-0">
-                    <Store class="w-5 h-5 text-white" />
-                </div>
-                <div class="min-w-0">
-                    <p class="text-body1 font-bold text-neutral-100 truncate leading-tight">SmartPOS</p>
-                    <p class="text-body2 text-neutral-60 truncate">Dany Mart</p>
-                </div>
-            </div>
-        </div>
+<div class="px-3 py-3 border-b border-neutral-40 flex items-center gap-3">
+    <img src="/logo.png" alt="Logo" class="h-9 w-auto object-contain shrink-0" />
+    <div class="w-px h-8 bg-neutral-40 shrink-0"></div>
+    <div class="min-w-0">
+        <p class="text-body1 font-bold text-neutral-100 leading-tight">SmartPOS</p>
+        <p class="text-body2 text-neutral-60">Dany Mart</p>
+    </div>
+</div>
 
         <div class="px-5 py-4 border-b border-neutral-40 bg-primary-surface/30">
             <div class="flex items-center gap-3">
