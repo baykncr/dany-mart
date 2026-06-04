@@ -81,12 +81,19 @@ class ProductController extends Controller
         ]);
 
         // PERBAIKAN BUG FOTO HILANG
+        // PERBAIKAN BUG FOTO HILANG (DI FUNGSI UPDATE)
         if ($request->hasFile('photo')) {
-            // kalo ada foto baru, hapus yang lama, simpan yang baru
+            // Jika ada foto baru, hapus yang lama & simpan yang baru
             if ($product->photo) Storage::disk('public')->delete($product->photo);
             $validated['photo'] = $request->file('photo')->store('products', 'public');
+
+        } elseif ($request->boolean('remove_photo')) {
+            // JIKA MENERIMA SINYAL HAPUS DARI VUE: Hapus foto lama & kosongkan di database
+            if ($product->photo) Storage::disk('public')->delete($product->photo);
+            $validated['photo'] = null; 
+
         } else {
-            // kalo gada foto baru, buang data 'photo' biar ga nimpa db jadi null
+            // Jika tidak ada perubahan apa-apa, abaikan
             unset($validated['photo']);
         }
 

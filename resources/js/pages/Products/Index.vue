@@ -97,6 +97,7 @@ const form = useForm({
     selling_price: '' as string | number,
     stock: 0,
     photo: null as File | null,
+    remove_photo: false, // <-- PERBAIKAN: Tambah penanda hapus foto
     _method: '',
 })
 
@@ -113,6 +114,7 @@ function openCreate() {
     form._method = ''
     form.unit = 'pcs'
     form.stock = 0
+    form.remove_photo = false // <-- PERBAIKAN: Reset saat nambah baru
     form.clearErrors()
     showModal.value = true
 }
@@ -128,6 +130,7 @@ function openEdit(product: Product) {
     form.selling_price  = product.selling_price
     form.stock          = product.stock
     form.photo          = null
+    form.remove_photo   = false // <-- PERBAIKAN: Reset penanda hapus
     form._method        = 'PUT'
     form.clearErrors()
     showModal.value = true
@@ -148,12 +151,14 @@ function handlePhotoChange(e: Event) {
     }
 
     form.photo = file
+    form.remove_photo = false // <-- PERBAIKAN: Batalkan hapus jika pilih foto baru
     photoPreview.value = URL.createObjectURL(file)
 }
 
 function removePhoto() {
     form.photo = null
-    photoPreview.value = editTarget.value?.photo ?? null
+    photoPreview.value = null // <-- PERBAIKAN: Kosongkan tampilan layar
+    form.remove_photo = true  // <-- PERBAIKAN: Kirim sinyal hapus ke Controller
 }
 
 function submit() {
@@ -161,6 +166,7 @@ function submit() {
         ? `/products/${editTarget.value.id}`
         : '/products'
 
+    // Form di sini sudah pakai post dengan forceFormData yang benar, mantap!
     form.post(url, {
         forceFormData: true,
         onSuccess: closeModal,

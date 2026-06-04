@@ -11,7 +11,7 @@ import { store } from '@/routes/login';
 
 // Import Icon
 import { 
-    Package2, Zap, Package, Bot, FileSpreadsheet, ShieldCheck, Mail, Lock 
+     Zap, Package, Bot, FileSpreadsheet, ShieldCheck, Mail, Lock 
 } from 'lucide-vue-next';
 
 defineOptions({

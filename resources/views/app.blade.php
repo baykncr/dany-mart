@@ -21,7 +21,7 @@
             html.dark { background-color: oklch(0.145 0 0); }
         </style>
 
-        <link rel="icon" href="{{ asset('logo (2).png') }}" type="image/png">
+        <link rel="icon" href="{{ asset('logo.png') }}" type="image/png">
     
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
